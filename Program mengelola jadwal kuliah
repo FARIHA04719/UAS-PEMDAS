@@ -1,0 +1,94 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct JadwalKuliah {
+    string mataKuliah;
+    string hari;
+    string jam;
+    string ruang;
+};
+
+void tambahJadwal(vector<JadwalKuliah>& jadwal) {
+    JadwalKuliah baru;
+    cout << "\nMasukkan nama mata kuliah: ";
+    getline(cin >> ws, baru.mataKuliah);
+    cout << "Masukkan hari: ";
+    getline(cin, baru.hari);
+    cout << "Masukkan jam (contoh: 08:00-10:00): ";
+    getline(cin, baru.jam);
+    cout << "Masukkan ruang: ";
+    getline(cin, baru.ruang);
+    jadwal.push_back(baru);
+    cout << "\nJadwal berhasil ditambahkan!\n";
+}
+
+void tampilkanJadwal(const vector<JadwalKuliah>& jadwal) {
+    if (jadwal.empty()) {
+        cout << "\nBelum ada jadwal yang terdaftar.\n";
+        return;
+    }
+
+    cout << "\nDaftar Jadwal Kuliah:\n";
+    for (size_t i = 0; i < jadwal.size(); ++i) {
+        cout << i + 1 << ". Mata Kuliah: " << jadwal[i].mataKuliah
+             << "\n   Hari: " << jadwal[i].hari
+             << "\n   Jam: " << jadwal[i].jam
+             << "\n   Ruang: " << jadwal[i].ruang << "\n\n";
+    }
+}
+
+void hapusJadwal(vector<JadwalKuliah>& jadwal) {
+    if (jadwal.empty()) {
+        cout << "\nTidak ada jadwal untuk dihapus.\n";
+        return;
+    }
+
+    tampilkanJadwal(jadwal);
+    cout << "Masukkan nomor jadwal yang ingin dihapus: ";
+    size_t index;
+    cin >> index;
+
+    if (index < 1 || index > jadwal.size()) {
+        cout << "\nNomor jadwal tidak valid.\n";
+        return;
+    }
+
+    jadwal.erase(jadwal.begin() + index - 1);
+    cout << "\nJadwal berhasil dihapus!\n";
+}
+
+int main() {
+    vector<JadwalKuliah> jadwal;
+    int pilihan;
+
+    do {
+        cout << "\n=== Pengelola Jadwal Kuliah ===\n";
+        cout << "1. Tambah Jadwal\n";
+        cout << "2. Tampilkan Jadwal\n";
+        cout << "3. Hapus Jadwal\n";
+        cout << "4. Keluar\n";
+        cout << "Pilih menu: ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1:
+                tambahJadwal(jadwal);
+                break;
+            case 2:
+                tampilkanJadwal(jadwal);
+                break;
+            case 3:
+                hapusJadwal(jadwal);
+                break;
+            case 4:
+                cout << "\nTerima kasih telah menggunakan program ini!\n";
+                break;
+            default:
+                cout << "\nPilihan tidak valid. Silakan coba lagi.\n";
+        }
+    } while (pilihan != 4);
+
+    return 0;
+}
